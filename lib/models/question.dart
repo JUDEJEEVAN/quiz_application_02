@@ -3,10 +3,10 @@ class Question {
   final List<String> options;
 
   const Question({required this.question, required this.options});
+
+  List<String> get answers {
+    List<String> randomAnswers = List.from(options);
+    randomAnswers.shuffle();
+    return randomAnswers;
+  }
 }
-
-// String question
-// List<String> options
-
-// get answers
-// return List<String> randomAnswers
