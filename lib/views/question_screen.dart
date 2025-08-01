@@ -1,9 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:quiz_application_02/components/button.dart';
+// import 'package:quiz_application_02/components/button.dart';
+import 'package:quiz_application_02/data/test_data.dart';
 
-class QuestionScreen extends StatelessWidget {
+class QuestionScreen extends StatefulWidget {
   const QuestionScreen({super.key});
+
+  @override
+  State<QuestionScreen> createState() => _QuestionScreenState();
+}
+
+class _QuestionScreenState extends State<QuestionScreen> {
+  int currentQuestion = 0;
+  List<String> userSelection = [];
+
+  // render answer function
+  List<Widget> renderAnswers(int index) {
+    List<Widget> answerButtons = [];
+
+    List<String> answers = questions[index]["options"];
+
+    answers.forEach((String answer) {
+      // button widget
+      Widget button = Button(
+        label: answer,
+        onTap: () {
+          userSelection.add(answer);
+
+          if (questions.length <= currentQuestion + 1) return;
+
+          setState(() {
+            currentQuestion++;
+          });
+        },
+      );
+      Widget gap = Gap(12);
+
+      answerButtons.add(button);
+      answerButtons.add(gap);
+    });
+
+    return answerButtons;
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,26 +65,26 @@ class QuestionScreen extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            // mainAxisSize: MainAxisSize.min,
+
             children: [
-              Text(
-                'Question text here...',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
+              // Widget
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Text(
+                  questions[currentQuestion]["question"],
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
 
-              // SizedBox(height: 80),
+              // Widget
               Gap(60),
-              Button(label: 'Answer 1'),
-              Gap(16),
-              Button(label: 'Answer 2'),
-              Gap(16),
-              Button(label: 'Answer 3'),
-              Gap(16),
-              Button(label: 'Answer 4'),
+
+              ...renderAnswers(currentQuestion),
             ],
           ),
         ),

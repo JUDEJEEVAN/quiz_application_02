@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_application_02/components/button.dart';
+import 'package:quiz_application_02/views/question_screen.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -59,7 +60,9 @@ class StartScreen extends StatelessWidget {
               Button(
                 label: 'Start New Quiz',
                 onTap: () {
-                  print('running onAction function...');
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (ctx) => QuestionScreen()),
+                  );
                 },
               ),
 
