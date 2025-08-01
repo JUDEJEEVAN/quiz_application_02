@@ -9,4 +9,6 @@ class Question {
     randomAnswers.shuffle();
     return randomAnswers;
   }
+
+  String get correctAnswer => options.first;
 }
