@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:quiz_application_02/components/button.dart';
+import 'package:quiz_application_02/components/final_answer.dart';
 // import 'package:quiz_application_02/components/button.dart';
 import 'package:quiz_application_02/data/test_data.dart';
+import 'package:quiz_application_02/views/results_screen.dart';
 
 class QuestionScreen extends StatefulWidget {
   const QuestionScreen({super.key});
@@ -28,7 +30,18 @@ class _QuestionScreenState extends State<QuestionScreen> {
         onTap: () {
           userSelection.add(answer);
 
-          if (questions.length <= currentQuestion + 1) return;
+          if (questions.length <= currentQuestion + 1) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) =>
+                    ResultsScreen(userSelection: userSelection),
+              ),
+            );
+            return FinalAnswer(
+              index: index,
+              selectedAnswer: userSelection[index],
+            );
+          }
 
           setState(() {
             currentQuestion++;

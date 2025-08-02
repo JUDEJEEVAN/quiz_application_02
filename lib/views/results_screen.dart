@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:quiz_application_02/components/final_answer.dart';
 import 'package:quiz_application_02/data/test_data.dart';
+import 'package:quiz_application_02/views/start_screen.dart';
 
 class ResultsScreen extends StatelessWidget {
-  const ResultsScreen({super.key});
+  const ResultsScreen({super.key, required this.userSelection});
+
+  final List<String> userSelection;
 
   @override
   Widget build(BuildContext context) {
+    int correctAnswerCount = 0;
+
+    for (int i = 0; i < questions.length; i++) {
+      if (userSelection[i] == questions[i].correctAnswer) correctAnswerCount++;
+    }
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -43,7 +53,7 @@ class ResultsScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'You got 8 out of ${questions.length} questions.',
+                        'You got $correctAnswerCount out of ${questions.length} questions.',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       const Gap(24),
@@ -53,32 +63,9 @@ class ResultsScreen extends StatelessWidget {
                         child: ListView.builder(
                           itemCount: questions.length,
                           itemBuilder: (context, index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  questions[index].question,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  questions[index].correctAnswer,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  questions[index].correctAnswer,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const Gap(24),
-                              ],
+                            return FinalAnswer(
+                              index: index,
+                              selectedAnswer: userSelection[index],
                             );
                           },
                         ),
@@ -87,7 +74,12 @@ class ResultsScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => StartScreen()),
+                    );
+                  },
                   child: Text(
                     'Reset Quiz',
                     style: TextStyle(color: Colors.white),
