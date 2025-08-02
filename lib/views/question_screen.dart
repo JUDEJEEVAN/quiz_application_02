@@ -21,7 +21,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   List<Widget> renderAnswers(int index) {
     List<Widget> answerButtons = [];
 
-    List<String> answers = questions[index]["options"];
+    List<String> answers = questions[index].answers;
 
     answers.forEach((String answer) {
       // button widget
@@ -84,7 +84,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: Text(
-                  questions[currentQuestion]["question"],
+                  questions[currentQuestion].question,
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w800,
